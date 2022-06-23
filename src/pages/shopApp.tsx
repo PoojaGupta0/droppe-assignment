@@ -10,8 +10,20 @@ import img1 from "../images/img1.png";
 import img2 from "../images/img2.png";
 import styles from "../styles/shopApp.module.css";
 
+type Product = {
+    category?: string;
+    description: string;
+    id?: number;
+    image?: string;
+    price: string;
+    rating?: { rate: number; count: number };
+    title: string;
+    isFavorite?: boolean
+  }
+  
+
 export const ShopApp: React.FC = () => {
-  const [products, setProducts] = useState<any>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
@@ -54,11 +66,7 @@ export const ShopApp: React.FC = () => {
     setOpenModel(!openModel);
   };
 
-  const onSubmit = (payload: {
-    title: string | null;
-    description: string | null;
-    price: string | null;
-  }) => {
+  const onSubmit = (payload:Product) => {
     const updated = lodash.clone(products);
     updated.push({
       title: payload.title,

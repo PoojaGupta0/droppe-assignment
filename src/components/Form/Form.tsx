@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { FormEvent } from "react";
 import { Button } from "../Button/Button";
 import styles from "../../styles/form.module.css";
 
@@ -12,7 +12,7 @@ export const Form: React.FC<IFormProps> = (props) => {
   let priceRef = React.useRef<HTMLInputElement>(null);
   let descriptionRef = React.useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!titleRef.current?.value) {

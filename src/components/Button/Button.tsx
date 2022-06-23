@@ -1,12 +1,12 @@
 import * as React from "react";
 import styles from "../../styles/button.module.css";
 
-interface props {
-  children: any;
+interface Props {
+  children: string;
   onClick?: () => void;
 }
 
-export const Button: React.FC<props> = ({ children, onClick }) => (
+export const Button: React.FC<Props> = ({ children, onClick }) => (
   <button className={styles.button} onClick={onClick}>
     {children}
   </button>

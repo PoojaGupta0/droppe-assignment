@@ -2,11 +2,21 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import styles from "../../styles/productList.module.css";
 
-export const ProductDetails: React.FC<{
-    index: number;
-    product: { title: string; description: string; price: number; isFavorite: boolean; rating: { rate: number; count: number } };
-    onFav: (title: string) => void;
-  }> = ({ product, onFav }) => {
+type Product = { 
+      title: string; 
+      description: string; 
+      price: string; 
+      isFavorite?: boolean; 
+      rating?: { rate: number; count: number } 
+}
+
+interface Props {
+     index: number;
+     product: Product;
+     onFav: (title: string) => void;
+}
+
+export const ProductDetails: React.FC<Props> = ({ product, onFav }) => {
     const { product: productClass, productBody, actionBarItem, actionBarItemLabel } = styles
     // Problem: Now product title can be too long, I just put overflowX as fix now
     return (

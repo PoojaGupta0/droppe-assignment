@@ -2,8 +2,19 @@ import React from "react";
 import lodash from 'lodash';
 import { ProductDetails } from "./ProductDetails"
 
+type Product = {
+   category?: string;
+   description: string;
+   id?: number;
+   image?: string;
+   price: string;
+   rating?: { rate: number; count: number };
+   title: string;
+   isFavorite?: boolean
+  }
+
 interface IPostsProps {
-  products: any;
+  products: Product[];
   onFav: (title: string) => void;
 }
 
