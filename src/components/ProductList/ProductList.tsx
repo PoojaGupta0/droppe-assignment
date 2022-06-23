@@ -10,7 +10,9 @@ interface IPostsProps {
 
 
 export default class Posts extends React.Component<IPostsProps, {}> {
+  // eslint-disable-next-line
   constructor(props: any) { super(props) }
+
   render() {
     let productsarr = []
     for (const [i, p] of this.props.products.entries()) {

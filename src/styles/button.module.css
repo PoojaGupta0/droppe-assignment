@@ -16,6 +16,11 @@
   margin: inherit;
   border: inherit;
   display: inherit;
+  align-content: inherit;
+  animation-delay: inherit;
+  animation-fill-mode: inherit;
+  animation-timing-function: inherit;
+  box-decoration-break: inherit;
   -webkit-align-content: inherit;
   -webkit-animation-delay: inherit;
   -webkit-animation-fill-mode: inherit;
