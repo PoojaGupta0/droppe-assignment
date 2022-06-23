@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Modal from "react-modal"
+import Modal from "react-modal";
+import { BrowserRouter } from "react-router-dom"
 import "./index.css";
-import { ShopApp } from "./pages/shopApp";
+import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 Modal.setAppElement("#root")
 
 ReactDOM.render(
   <React.StrictMode>
-    <ShopApp />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
