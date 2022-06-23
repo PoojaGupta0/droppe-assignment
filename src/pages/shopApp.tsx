@@ -1,26 +1,25 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import lodash from 'lodash';
 import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
 import { Button } from "../components/Button/Button";
-import ProductList from "../components/ProductList/ProductList";
+import { ProductList } from "../components/ProductList/ProductList";
 import { Form } from "../components/Form/Form";
 import logo from "../images/droppeLogo.png";
 import img1 from "../images/img1.png";
 import img2 from "../images/img2.png";
 import styles from "../styles/shopApp.module.css";
 
-export class ShopApp extends React.Component<
-  {},
-  { products: any[]; isOpen: boolean; isShowingMessage: boolean; message: string; numFavorites: number; prodCount: number }
-> {
-  constructor(props: any) {
-    super(props);
-    this.favClick = this.favClick.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.state = { products: [], isOpen: false, isShowingMessage: false, message: '', numFavorites: 0, prodCount: 0 };
+export const ShopApp: React.FC = () => {
+  const [products, setProducts] = useState<any>([]);
+  const [openModel, setOpenModel] = useState<boolean>(false);
+  const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>();
+  const [numFavorites, setNumFavorites] = useState<number>(0);
+  const [prodCount, setProdCount] = useState<number>(0);
 
-    fetch('https://fakestoreapi.com/products').then((response) => {
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products").then((response) => {
       let jsonResponse = response.json();
       jsonResponse.then((rawData) => {
         let data = [];
@@ -28,85 +27,69 @@ export class ShopApp extends React.Component<
           let updatedProd = rawData[i];
           data.push(updatedProd);
         }
-        this.setState({
-          products: data,
-        });
-        this.setState({
-          prodCount: data.length
-        })
+        setProducts([...data]);
+        setProdCount(data.length);
       });
     });
-  }
+  }, []);
 
-  componentDidMount() {
-    document.title = "Droppe refactor app"
-  }
-
-  favClick(title: string) {
-    const prods = this.state.products;
-    const idx = lodash.findIndex(prods, { title: title })
-    let currentFavs = this.state.numFavorites
+  const favClick = (title: string) => {
+    const prods = products;
+    const idx = lodash.findIndex(prods, { title: title });
+    let currentFavs = numFavorites;
     let totalFavs: any;
 
     if (prods[idx].isFavorite) {
       prods[idx].isFavorite = false;
-      totalFavs = --currentFavs
+      totalFavs = --currentFavs;
     } else {
-      totalFavs = ++currentFavs
+      totalFavs = ++currentFavs;
       prods[idx].isFavorite = true;
     }
+    setProducts(prods);
+    setNumFavorites(totalFavs);
+  };
 
-    this.setState(() => ({ products: prods, numFavorites: totalFavs }));
-  }
+  const handleModal = () => {
+    setOpenModel(!openModel);
+  };
 
-  onSubmit(payload: { title: string; description: string, price: string }) {
-    const updated = lodash.clone(this.state.products);
+  const onSubmit = (payload: {
+    title: string | null;
+    description: string | null;
+    price: string | null;
+  }) => {
+    const updated = lodash.clone(products);
     updated.push({
       title: payload.title,
       description: payload.description,
-      price: payload.price
+      price: payload.price,
     });
-
-    this.setState({
-      products: updated,
-      prodCount: lodash.size(this.state.products) + 1
-    });
-
-    this.setState({
-      isOpen: false,
-    });
-
-    this.setState({
-      isShowingMessage: true,
-      message: 'Adding product...'
-    })
-
+    setProducts([...updated]);
+    setProdCount(lodash.size(products) + 1);
+    setOpenModel(false);
+    setIsShowingMessage(true);
+    setMessage("Adding Product...");
     // **this POST request doesn't actually post anything to any database**
-    fetch('https://fakestoreapi.com/products', {
+    fetch("https://fakestoreapi.com/products", {
       method: "POST",
-      body: JSON.stringify(
-        {
-          title: payload.title,
-          price: payload.price,
-          description: payload.description,
-        }
-      )
+      body: JSON.stringify({
+        title: payload.title,
+        price: payload.price,
+        description: payload.description,
+      }),
     })
-      .then(res => res.json())
-      .then(json => {
-        (function (t) {
+      .then((res) => res.json())
+      .then((json) => {
+        (function () {
           setTimeout(() => {
-            t.setState({
-              isShowingMessage: false,
-              message: ''
-            })
-          }, 2000)
-        })(this);
-      })
-  }
+            setIsShowingMessage(false);
+            setMessage("");
+          }, 2000);
+        })();
+      });
+  };
 
-  render() {
-    const { products, isOpen } = this.state;
     return (
       <React.Fragment>
         <div className={styles.header}>
@@ -127,49 +110,40 @@ export class ShopApp extends React.Component<
           <div className={styles.buttonWrapper}>
             <span role="button">
               <Button
-                onClick={function (this: any) {
-                  this.setState({
-                    isOpen: true,
-                  });
-                }.bind(this)}
+                onClick={() => handleModal()}
               >Send product proposal</Button>
             </span>
-            {this.state.isShowingMessage && <div className={styles.messageContainer}>
-              <i>{this.state.message}</i>
+            {isShowingMessage && <div className={styles.messageContainer}>
+              <i>{message}</i>
             </div>}
           </div>
           <div className={styles.statsContainer}>
-            <span>Total products: {this.state.prodCount}</span>
+            <span>Total products: {prodCount}</span>
             {' - '}
-            <span>Number of favorites: {this.state.numFavorites}</span>
+            <span>Number of favorites: {numFavorites}</span>
           </div>
 
-          {products && !!products.length ? <ProductList products={products} onFav={this.favClick} /> : <div></div>}
+          {products && !!products.length ? <ProductList products={products} onFav={favClick} /> : <div></div>}
         </div>
         <>
           <Modal
-            isOpen={isOpen}
+            isOpen={openModel}
             className={styles.reactModalContent}
             overlayClassName={styles.reactModalOverlay}
           >
             <div className={styles.modalContentHelper}>
               <div
                 className={styles.modalClose}
-                onClick={function (this: any) {
-                  this.setState({
-                    isOpen: false,
-                  });
-                }.bind(this)}
+                onClick={() => handleModal()}
               >
                 <FaTimes />
               </div>
               <Form
-                on-submit={this.onSubmit}
+                on-submit={onSubmit}
               />
             </div>
           </Modal>
         </>
       </React.Fragment>
     );
-  }
 }

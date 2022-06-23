@@ -9,19 +9,15 @@ interface IPostsProps {
 }
 
 
-export default class Posts extends React.Component<IPostsProps, {}> {
-  // eslint-disable-next-line
-  constructor(props: any) { super(props) }
-
-  render() {
+export const ProductList: React.FC<IPostsProps> = (props: IPostsProps) => {
     let productsarr = []
-    for (const [i, p] of this.props.products.entries()) {
+
+    for (const [i, p] of props.products.entries()) {
       productsarr.push(
-        <Product key={i} index={i} product={p} onFav={this.props.onFav} />
+        <Product key={i} index={i} product={p} onFav={props.onFav} />
       );
     }
     return <div>{lodash.reverse(productsarr)}</div>
-  }
 }
 
 export const Product: React.FC<{
