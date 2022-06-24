@@ -9,6 +9,10 @@
   padding: 16px 24px 8px;
   padding-right: 24px;
   margin: inherit;
+  display: inline-block;
+  overflow-x: scroll;
+  float: none;
+  clear: both
 }
 
 .product:not(:last-child) {
@@ -21,6 +25,7 @@
   font-weight: 600;
   margin: 0 0 16px;
   white-space: nowrap;
+  overflow-x: hidden;
 }
 
 .productBody {
@@ -32,6 +37,8 @@
   justify-content: flex-start;
   border-top: 1px solid #e3e4ee;
   padding-top: 8px;
+  display: table;
+   width: 100%;
 }
 
 .actionBarItem {

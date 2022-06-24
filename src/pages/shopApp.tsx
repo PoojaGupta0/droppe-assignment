@@ -60,6 +60,7 @@ export const ShopApp: React.FC = () => {
       description: payload.description,
       price: payload.price,
     });
+
     setProducts([...updated]);
     setProductCount(lodash.size(products) + 1);
     setOpenModel(false);
@@ -89,20 +90,17 @@ export const ShopApp: React.FC = () => {
     return (
       <React.Fragment>
         <div className={styles.header}>
-          <div className={['container', styles.headerImageWrapper].join(' ')}>
+          <div className={`container ${styles.headerImageWrapper}`}>
             <img alt="droppe_logo" src={logo} className={styles.headerImage} />
           </div>
         </div>
-        <>
           <span
-            className={['container', styles.main].join(' ')}
-            style={{ margin: '50px inherit', display: 'flex', justifyContent: 'space-evenly' }}
+            className={`container ${styles.main} ${styles.mainImg}`}
           >
-            <img alt="img1" src={img1} style={{ maxHeight: "15em", display: 'block' }} />
-            <img alt="img2" src={img2} style={{ maxHeight: "15rem", display: 'block' }} />
+            <img alt="img1" src={img1} />
+            <img alt="img2" src={img2} />
           </span>
-        </>
-        <div className={['container', styles.main].join(' ')} style={{ paddingTop: 0 }}>
+        <div className={`container ${styles.main} ${styles.btnDiv}`} >
           <div className={styles.buttonWrapper}>
             <span role="button">
               <Button

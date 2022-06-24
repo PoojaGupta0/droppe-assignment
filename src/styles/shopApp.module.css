@@ -17,6 +17,20 @@
   padding: 32px 0;
 }
 
+.mainImg {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.mainImg img{
+  max-height: 15em;
+  display: block;
+}
+
+.btnDiv {
+  padding-top: 0;
+}
+
 .buttonWrapper {
   margin-bottom: 24px;
 }
