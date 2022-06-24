@@ -28,38 +28,27 @@ export const ShopApp: React.FC = () => {
   const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
   const [numFavorites, setNumFavorites] = useState<number>(0);
-  const [prodCount, setProdCount] = useState<number>(0);
+  const [productCount, setProductCount] = useState<number>(0);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products").then((response) => {
-      let jsonResponse = response.json();
-      jsonResponse.then((rawData) => {
-        let data = [];
-        for (let i = 0; i < rawData.length; i++) {
-          let updatedProd = rawData[i];
-          data.push(updatedProd);
-        }
-        setProducts([...data]);
-        setProdCount(data.length);
+      response.json().then((rawData) => {        
+        setProducts(rawData);
+        setProductCount(rawData.length);
       });
     });
   }, []);
 
   const favClick = (title: string) => {
-    const prods = products;
-    const idx = lodash.findIndex(prods, { title: title });
+    const index = lodash.findIndex(products, { title: title });
     let currentFavs = numFavorites;
-    let totalFavs: any;
-
-    if (prods[idx].isFavorite) {
-      prods[idx].isFavorite = false;
-      totalFavs = --currentFavs;
+    if (products[index].isFavorite) {
+      products[index].isFavorite = false;
+      setNumFavorites(--currentFavs);
     } else {
-      totalFavs = ++currentFavs;
-      prods[idx].isFavorite = true;
+      setNumFavorites(++currentFavs)
+      products[index].isFavorite = true;
     }
-    setProducts(prods);
-    setNumFavorites(totalFavs);
   };
 
   const handleModal = () => {
@@ -74,10 +63,11 @@ export const ShopApp: React.FC = () => {
       price: payload.price,
     });
     setProducts([...updated]);
-    setProdCount(lodash.size(products) + 1);
+    setProductCount(lodash.size(products) + 1);
     setOpenModel(false);
     setIsShowingMessage(true);
     setMessage("Adding Product...");
+    
     // **this POST request doesn't actually post anything to any database**
     fetch("https://fakestoreapi.com/products", {
       method: "POST",
@@ -126,15 +116,14 @@ export const ShopApp: React.FC = () => {
             </div>}
           </div>
           <div className={styles.statsContainer}>
-            <span>Total products: {prodCount}</span>
+            <span>Total products: {productCount}</span>
             {' - '}
             <span>Number of favorites: {numFavorites}</span>
           </div>
 
-          {products && !!products.length ? <ProductList products={products} onFav={favClick} /> : <div></div>}
+          {products && products.length && <ProductList products={products} onFav={favClick} />}
         </div>
-        <>
-          <Modal
+        <Modal
             isOpen={openModel}
             className={styles.reactModalContent}
             overlayClassName={styles.reactModalOverlay}
@@ -151,7 +140,6 @@ export const ShopApp: React.FC = () => {
               />
             </div>
           </Modal>
-        </>
       </React.Fragment>
     );
 }
