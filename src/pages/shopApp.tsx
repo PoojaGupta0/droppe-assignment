@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import lodash from 'lodash';
 import { AddProductModal } from "../components/Modal";
-import { Button } from "../components/Button/Button";
+import { Button } from "../components/Button";
 import { ProductList } from "../components/ProductList/ProductList";
 import logo from "../images/droppeLogo.png";
 import img1 from "../images/img1.png";

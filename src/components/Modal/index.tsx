@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
-import { Form } from "../Form/Form";
+import { Form } from "../Form";
 import styles from "../../styles/shopApp.module.css"
 
 type Product = {
