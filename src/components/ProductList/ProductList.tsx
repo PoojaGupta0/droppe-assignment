@@ -13,20 +13,21 @@ type Product = {
    isFavorite?: boolean
   }
 
-interface IPostsProps {
+interface Props {
   products: Product[];
   onFav: (title: string) => void;
 }
 
 
-export const ProductList: React.FC<IPostsProps> = (props: IPostsProps) => {
-    let productsarr = []
+export const ProductList: React.FC<Props> = ({products, onFav}) => {
+    let productsData: any[] = []
 
-    for (const [i, p] of props.products.entries()) {
-      productsarr.push(
-        <ProductDetails key={i} index={i} product={p} onFav={props.onFav} />
-      );
-    }
-    return <div>{lodash.reverse(productsarr)}</div>
+    products.forEach((product, index) => {
+      productsData.push(
+        <ProductDetails key={index} index={index} product={product} onFav={onFav} />
+      )
+    })
+
+    return <div>{lodash.reverse(productsData)}</div>
 }
 
