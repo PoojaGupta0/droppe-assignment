@@ -2,15 +2,28 @@ import React, { FormEvent } from "react";
 import { Button } from "../Button/Button";
 import styles from "../../styles/form.module.css";
 
-type IFormProps = {
+type Props = {
   "on-submit": (payload: { title: string; description: string; price: string }) => void;
 }
 
-export const Form: React.FC<IFormProps> = (props) => {
+export const Form: React.FC<Props> = (props) => {
   let formRef = React.useRef<HTMLFormElement>(null);
   let titleRef = React.useRef<HTMLInputElement>(null);
   let priceRef = React.useRef<HTMLInputElement>(null);
   let descriptionRef = React.useRef<HTMLTextAreaElement>(null);
+
+  const formInput = [
+    {
+      title: "Product title: *",
+      inputText: "Title...",
+      refrence: titleRef,
+    },
+    {
+      title: "Product details: *",
+      inputText: "Title...",
+      refrence: priceRef,
+    }
+  ]
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,9 +31,7 @@ export const Form: React.FC<IFormProps> = (props) => {
     if (!titleRef.current?.value) {
       alert("Your product needs a title");
       return;
-    }
-
-    if (!descriptionRef.current?.value || !priceRef.current?.value) {
+    } else if (!descriptionRef.current?.value || !priceRef.current?.value) {
       alert("Your product needs some content");
       return;
     }
@@ -36,20 +47,17 @@ export const Form: React.FC<IFormProps> = (props) => {
 
   return (
     <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
-      <span className={styles.label}>Product title: *</span>
-      <input
-        ref={titleRef}
-        placeholder="Title..."
-        defaultValue=""
-        className={styles.input}
-      />
-      <span className={styles.label}>Product details: *</span>
-      <input
-        ref={priceRef}
-        placeholder="Price..."
-        defaultValue=""
-        className={styles.input}
-      />
+      {formInput.map(field => (
+        <>
+          <span className={styles.label}>{field.title}</span>
+          <input
+            ref={field.refrence}
+            placeholder={field.inputText}
+            defaultValue=""
+            className={styles.input}
+          />
+        </>
+      ))}
       <textarea
         ref={descriptionRef}
         placeholder="Start typing product description here..."
