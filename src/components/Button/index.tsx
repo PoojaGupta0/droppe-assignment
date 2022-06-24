@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+
 import styles from "../../styles/button.module.css";
 
 interface Props {

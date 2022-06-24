@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import lodash from 'lodash';
+
 import { AddProductModal } from "../components/Modal";
 import { Button } from "../components/Button";
 import { ProductList } from "../components/ProductList/ProductList";
@@ -9,16 +10,15 @@ import img2 from "../images/img2.png";
 import styles from "../styles/shopApp.module.css";
 
 type Product = {
-    category?: string;
-    description: string;
-    id?: number;
-    image?: string;
-    price: string;
-    rating?: { rate: number; count: number };
-    title: string;
-    isFavorite?: boolean
-  }
-  
+  category?: string;
+  description: string;
+  id?: number;
+  image?: string;
+  price: string;
+  rating?: { rate: number; count: number };
+  title: string;
+  isFavorite?: boolean
+}
 
 export const ShopApp: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,7 +30,7 @@ export const ShopApp: React.FC = () => {
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products").then((response) => {
-      response.json().then((rawData) => {        
+      response.json().then((rawData) => {
         setProducts(rawData);
         setProductCount(rawData.length);
       });
@@ -53,7 +53,7 @@ export const ShopApp: React.FC = () => {
     setOpenModel(!openModel);
   };
 
-  const onSubmit = (payload:Product) => {
+  const onSubmit = (payload: Product) => {
     const updated = lodash.clone(products);
     updated.push({
       title: payload.title,
@@ -66,7 +66,7 @@ export const ShopApp: React.FC = () => {
     setOpenModel(false);
     setIsShowingMessage(true);
     setMessage("Adding Product...");
-    
+
     // **this POST request doesn't actually post anything to any database**
     fetch("https://fakestoreapi.com/products", {
       method: "POST",
@@ -87,39 +87,41 @@ export const ShopApp: React.FC = () => {
       });
   };
 
-    return (
-      <React.Fragment>
-        <div className={styles.header}>
-          <div className={`container ${styles.headerImageWrapper}`}>
-            <img alt="droppe_logo" src={logo} className={styles.headerImage} />
-          </div>
+  return (
+    <React.Fragment>
+      <div className={styles.header}>
+        <div className={`container ${styles.headerImageWrapper}`}>
+          <img alt="droppe_logo" src={logo} className={styles.headerImage} />
         </div>
-          <span
-            className={`container ${styles.main} ${styles.mainImg}`}
-          >
-            <img alt="img1" src={img1} />
-            <img alt="img2" src={img2} />
+      </div>
+      <span className={`container ${styles.main} ${styles.mainImg}`}>
+        <img alt="img1" src={img1} />
+        <img alt="img2" src={img2} />
+      </span>
+      <div className={`container ${styles.main} ${styles.btnDiv}`}>
+        <div className={styles.buttonWrapper}>
+          <span role="button">
+            <Button
+              onClick={() => handleModal()}
+            >
+              Send product proposal
+            </Button>
           </span>
-        <div className={`container ${styles.main} ${styles.btnDiv}`} >
-          <div className={styles.buttonWrapper}>
-            <span role="button">
-              <Button
-                onClick={() => handleModal()}
-              >Send product proposal</Button>
-            </span>
-            {isShowingMessage && <div className={styles.messageContainer}>
+          {
+            isShowingMessage &&
+            <div className={styles.messageContainer}>
               <i>{message}</i>
-            </div>}
-          </div>
-          <div className={styles.statsContainer}>
-            <span>Total products: {productCount}</span>
-            {' - '}
-            <span>Number of favorites: {numFavorites}</span>
-          </div>
-
-          {products && products.length && <ProductList products={products} onFav={favClick} />}
+            </div>
+          }
         </div>
-       <AddProductModal openModel={openModel} handleModal={handleModal} onSubmit={onSubmit} />
-      </React.Fragment>
-    );
+        <div className={styles.statsContainer}>
+          <span>Total products: {productCount}</span>
+          {' - '}
+          <span>Number of favorites: {numFavorites}</span>
+        </div>
+        {products && products.length && <ProductList products={products} onFav={favClick} />}
+      </div>
+      <AddProductModal openModel={openModel} handleModal={handleModal} onSubmit={onSubmit} />
+    </React.Fragment>
+  );
 }
