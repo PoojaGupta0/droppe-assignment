@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import lodash from 'lodash';
-import Modal from "react-modal";
-import { FaTimes } from "react-icons/fa";
+import { AddProductModal } from "../components/Modal";
 import { Button } from "../components/Button/Button";
 import { ProductList } from "../components/ProductList/ProductList";
-import { Form } from "../components/Form/Form";
 import logo from "../images/droppeLogo.png";
 import img1 from "../images/img1.png";
 import img2 from "../images/img2.png";
@@ -123,23 +121,7 @@ export const ShopApp: React.FC = () => {
 
           {products && products.length && <ProductList products={products} onFav={favClick} />}
         </div>
-        <Modal
-            isOpen={openModel}
-            className={styles.reactModalContent}
-            overlayClassName={styles.reactModalOverlay}
-          >
-            <div className={styles.modalContentHelper}>
-              <div
-                className={styles.modalClose}
-                onClick={() => handleModal()}
-              >
-                <FaTimes />
-              </div>
-              <Form
-                on-submit={onSubmit}
-              />
-            </div>
-          </Modal>
+       <AddProductModal openModel={openModel} handleModal={handleModal} onSubmit={onSubmit} />
       </React.Fragment>
     );
 }
