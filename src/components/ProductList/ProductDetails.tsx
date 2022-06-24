@@ -18,14 +18,14 @@ interface Props {
 
 export const ProductDetails: React.FC<Props> = ({ product, onFav }) => {
     const { product: productClass, productBody, actionBarItem, actionBarItemLabel } = styles
-    // Problem: Now product title can be too long, I just put overflowX as fix now
+
     return (
       <span className={productClass} style={{ display: 'inline-block', overflowX: 'scroll', float: 'none', clear: 'both' }}>
         <span className={styles['product-title']} style={{ overflowX: 'hidden' }}>{product.title}</span>
-        <p><strong>Rating: {product.rating ? `${product.rating.rate}/5` : ''}</strong></p>
+        <p><b>Rating: {product.rating ? `${product.rating.rate}/5` : ''}</b></p>
         <p><b>Price: ${+product.price}</b></p>
         <p className={productBody}>
-          <span><b>Description:</b></span>
+        <b>Description:</b>
           <br />
           {product.description}
         </p>
@@ -38,7 +38,8 @@ export const ProductDetails: React.FC<Props> = ({ product, onFav }) => {
               onFav(product.title);
             }}
           >
-            <FaStar /> <span className={actionBarItemLabel}>{!!(!!(product.isFavorite)) ? 'Remove from favorites' : 'Add to favorites'}</span>
+            <FaStar /> 
+            <span className={actionBarItemLabel}>{(product.isFavorite) ? 'Remove from favorites' : 'Add to favorites'}</span>
           </span>
         </span>
       </span>
