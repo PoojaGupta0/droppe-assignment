@@ -4,21 +4,11 @@ import lodash from 'lodash';
 import { AddProductModal } from "../components/Modal";
 import { Button } from "../components/Button";
 import { ProductList } from "../components/ProductList/ProductList";
+import { Product } from "../components/types";
 import logo from "../images/droppeLogo.png";
 import img1 from "../images/img1.png";
 import img2 from "../images/img2.png";
 import styles from "../styles/shopApp.module.css";
-
-type Product = {
-  category?: string;
-  description: string;
-  id?: number;
-  image?: string;
-  price: string;
-  rating?: { rate: number; count: number };
-  title: string;
-  isFavorite?: boolean
-}
 
 export const ShopApp: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);

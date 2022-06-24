@@ -3,18 +3,8 @@ import Modal from "react-modal";
 import { FaTimes } from "react-icons/fa";
 
 import { Form } from "../Form";
+import { Product } from "../types";
 import styles from "../../styles/shopApp.module.css"
-
-type Product = {
-    category?: string;
-    description: string;
-    id?: number;
-    image?: string;
-    price: string;
-    rating?: { rate: number; count: number };
-    title: string;
-    isFavorite?: boolean
-}
 
 interface Props {
     openModel: boolean;

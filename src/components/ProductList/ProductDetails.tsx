@@ -1,15 +1,8 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
+import { Product } from "../types";
 import styles from "../../styles/productList.module.css";
-
-type Product = {
-  title: string;
-  description: string;
-  price: string;
-  isFavorite?: boolean;
-  rating?: { rate: number; count: number }
-}
 
 interface Props {
   index: number;

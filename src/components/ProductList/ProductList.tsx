@@ -1,18 +1,8 @@
 import React from "react";
 import lodash from 'lodash';
 
+import { Product } from "../types";
 import { ProductDetails } from "./ProductDetails"
-
-type Product = {
-  category?: string;
-  description: string;
-  id?: number;
-  image?: string;
-  price: string;
-  rating?: { rate: number; count: number };
-  title: string;
-  isFavorite?: boolean
-}
 
 interface Props {
   products: Product[];
