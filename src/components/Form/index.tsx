@@ -3,7 +3,7 @@ import React, { FormEvent } from "react";
 import { Button } from "../Button";
 import styles from "../../styles/form.module.css";
 
-type Props = {
+interface Props {
   "on-submit": (payload: { title: string; description: string; price: string }) => void;
 }
 
@@ -15,11 +15,13 @@ export const Form: React.FC<Props> = (props) => {
 
   const formInput = [
     {
+      id: "title",
       title: "Product title: *",
       inputText: "Title...",
       refrence: titleRef,
     },
     {
+      id: "price",
       title: "Product details: *",
       inputText: "Title...",
       refrence: priceRef,
@@ -47,25 +49,29 @@ export const Form: React.FC<Props> = (props) => {
   };
 
   return (
-    <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
+    <form data-testid="productAdd-form" className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
       {formInput.map(field => (
-        <>
+        <div key={field.id}>
           <label className={styles.label}>{field.title}</label>
           <input
+            name={field.id}
             ref={field.refrence}
             placeholder={field.inputText}
             defaultValue=""
             className={styles.input}
+            data-testid={field.id}
           />
-        </>
+        </div>
       ))}
       <textarea
+        data-testid="description"
+        name="description"
         ref={descriptionRef}
         placeholder="Start typing product description here..."
         defaultValue=""
         className={styles.textarea}
       />
-      <Button>Add a product</Button>
+      <Button data-testid="button">Add a product</Button>
     </form>
   );
 };
