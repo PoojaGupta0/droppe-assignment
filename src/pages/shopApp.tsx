@@ -80,18 +80,18 @@ export const ShopApp: React.FC = () => {
     <React.Fragment>
       <div className={styles.header}>
         <div className={`container ${styles.headerImageWrapper}`}>
-          <img alt="droppe_logo" src={logo} className={styles.headerImage} />
+          <img data-testid="droppeLogo" alt="droppe_logo" src={logo} className={styles.headerImage} />
         </div>
       </div>
       <span className={`container ${styles.main} ${styles.mainImg}`}>
-        <img alt="img1" src={img1} />
-        <img alt="img2" src={img2} />
+        <img data-testid="img1" alt="img1" src={img1} />
+        <img data-testid="img2" alt="img2" src={img2} />
       </span>
       <div className={`container ${styles.main} ${styles.btnDiv}`}>
         <div className={styles.buttonWrapper}>
           <span role="button">
             <Button
-              onClick={() => handleModal()}
+              onClick={handleModal}
             >
               Send product proposal
             </Button>
