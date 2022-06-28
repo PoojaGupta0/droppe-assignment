@@ -5,7 +5,6 @@ import { Product } from "../types";
 import styles from "../../styles/productList.module.css";
 
 interface Props {
-  index: number;
   product: Product;
   onFav: (title: string) => void;
 }
@@ -21,7 +20,7 @@ export const ProductDetails: React.FC<Props> = ({ product, onFav }) => {
       <p><b>Rating: {product.rating ? `${product.rating.rate}/5` : ''}</b></p>
       <p><b>Price: ${+product.price}</b></p>
       <p className={productBody}>
-        <b>Description:</b>
+        <b data-testid="Description">Description:</b>
         <br />
         {product.description}
       </p>
@@ -32,6 +31,8 @@ export const ProductDetails: React.FC<Props> = ({ product, onFav }) => {
           onClick={() => {
             onFav(product.title);
           }}
+          data-testid="favorite"
+          id="favorite"
         >
           <FaStar />
           <span className={actionBarItemLabel}>
