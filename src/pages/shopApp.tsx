@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import lodash from 'lodash';
 
 import { AddProductModal } from "../components/Modal";
 import { Button } from "../components/Button";
@@ -30,7 +29,7 @@ export const ShopApp: React.FC = () => {
   }, []);
 
   const favClick = (title: string) => {
-    const index = lodash.findIndex(products, { title });
+    const index = products.findIndex((product: Product) => product.title === title);
     let currentFavs = numFavorites;
     if (products[index].isFavorite) {
       products[index].isFavorite = false;
