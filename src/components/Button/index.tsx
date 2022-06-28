@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Button: React.FC<Props> = ({ children, onClick }) => (
-  <button className={styles.button} onClick={onClick}>
+  <button data-testid="button" className={styles.button} onClick={onClick}>
     {children}
   </button>
 );
