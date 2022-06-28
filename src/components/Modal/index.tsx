@@ -22,7 +22,7 @@ export const AddProductModal: React.FC<Props> = ({ openModel, handleModal, onSub
             <div className={styles.modalContentHelper}>
                 <div
                     className={styles.modalClose}
-                    onClick={() => handleModal()}
+                    onClick={handleModal}
                 >
                     <FaTimes />
                 </div>

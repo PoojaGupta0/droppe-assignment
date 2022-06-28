@@ -50,7 +50,7 @@ export const Form: React.FC<Props> = (props) => {
     <form className={styles.form} onSubmit={(event) => handleSubmit(event)} ref={formRef}>
       {formInput.map(field => (
         <>
-          <span className={styles.label}>{field.title}</span>
+          <label className={styles.label}>{field.title}</label>
           <input
             ref={field.refrence}
             placeholder={field.inputText}

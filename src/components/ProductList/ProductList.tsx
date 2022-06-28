@@ -1,5 +1,4 @@
 import React from "react";
-import lodash from 'lodash';
 
 import { Product } from "../types";
 import { ProductDetails } from "./ProductDetails"
@@ -10,13 +9,15 @@ interface Props {
 }
 
 export const ProductList: React.FC<Props> = ({ products, onFav }) => {
-  let productsData: any[] = []
+  let productsData: Product[] = products.reverse()
 
-  products.forEach((product, index) => {
-    productsData.push(
-      <ProductDetails key={index} index={index} product={product} onFav={onFav} />
-    )
-  })
-
-  return <div>{lodash.reverse(productsData)}</div>
+  return (
+    <div>
+      {
+        productsData.map((product, index) => {
+          return <ProductDetails key={index} product={product} onFav={onFav} />
+        })
+      }
+    </div>
+  )
 }

@@ -20,15 +20,17 @@ export const ShopApp: React.FC = () => {
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products").then((response) => {
-      response.json().then((rawData) => {
-        setProducts(rawData);
-        setProductCount(rawData.length);
-      });
+      if (response) {
+        response.json().then((rawData) => {
+          setProducts(rawData);
+          setProductCount(rawData.length);
+        });
+      }
     });
   }, []);
 
   const favClick = (title: string) => {
-    const index = lodash.findIndex(products, { title: title });
+    const index = lodash.findIndex(products, { title });
     let currentFavs = numFavorites;
     if (products[index].isFavorite) {
       products[index].isFavorite = false;
@@ -44,15 +46,14 @@ export const ShopApp: React.FC = () => {
   };
 
   const onSubmit = (payload: Product) => {
-    const updated = lodash.clone(products);
-    updated.push({
+    const newProduct = {
       title: payload.title,
       description: payload.description,
       price: payload.price,
-    });
+    };
 
-    setProducts([...updated]);
-    setProductCount(lodash.size(products) + 1);
+    setProducts([...products, newProduct]);
+    setProductCount(products.length + 1);
     setOpenModel(false);
     setIsShowingMessage(true);
     setMessage("Adding Product...");
@@ -60,13 +61,11 @@ export const ShopApp: React.FC = () => {
     // **this POST request doesn't actually post anything to any database**
     fetch("https://fakestoreapi.com/products", {
       method: "POST",
-      body: JSON.stringify({
-        title: payload.title,
-        price: payload.price,
-        description: payload.description,
-      }),
+      body: JSON.stringify(newProduct),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res) res.json()
+      })
       .then((json) => {
         (function () {
           setTimeout(() => {
